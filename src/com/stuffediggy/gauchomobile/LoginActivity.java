@@ -12,6 +12,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 
 
@@ -34,6 +36,22 @@ public class LoginActivity extends Activity {
 	}
 	
 	 public void loginToGauchoSpace(View v) {
+	     TextView username = (TextView) findViewById(R.id.username);
+	     TextView password = (TextView) findViewById(R.id.password);
+	     
+	     if (username.getText().toString().equals("") || 
+	    	 password.getText().toString().equals("")) {
+	    	 
+	    	 AlertDialog.Builder builder = new AlertDialog.Builder(this);
+	    	 builder.setMessage("Please enter your GauchoSpace username and password.");
+	    	 builder.setCancelable(false);
+	    	 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() { public void onClick(DialogInterface dialog, int id) {}});
+	    	 AlertDialog alert = builder.create();
+	    	 alert.show();
+	    	 return;
+	     }
+		 
+		 
 		 Log.v("DEBUG", "Logging in...");
 		 new HttpTask().execute("");
      }
@@ -70,7 +88,7 @@ public class LoginActivity extends Activity {
 		        return result;
 		        
 		    } catch (Exception e) {
-		       Log.v("DEBUG", "Exception when logging in: " + e.toString());
+		    	Log.v("DEBUG", "Exception when logging in: " + e.toString());
 		    }
 		    
 			return "";
@@ -88,6 +106,18 @@ public class LoginActivity extends Activity {
 		@Override
 		protected void onPostExecute(String result) {
 			publishProgress(false);
+			
+			if (result.equals("")) {
+				setProgressBarIndeterminateVisibility(false);
+		    	
+		    	AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+		    	builder.setMessage("GauchoMobile was unable to log in. Check your username and password and try again.");
+		    	builder.setCancelable(false);
+		    	builder.setPositiveButton("OK", null);
+		    	//builder.setPositiveButton("OK", new DialogInterface.OnClickListener() { public void onClick(DialogInterface dialog, int id) {}});
+		    	AlertDialog alert = builder.create();
+		    	alert.show();
+			}
 			
 		    //Store the now validated username and password in the data source
 		    TextView username = (TextView) findViewById(R.id.username);
