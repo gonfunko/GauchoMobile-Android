@@ -19,6 +19,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
+import android.content.SharedPreferences;
+
 
 public class LoginActivity extends Activity {
 
@@ -86,11 +88,31 @@ public class LoginActivity extends Activity {
 		@Override
 		protected void onPostExecute(String result) {
 			publishProgress(false);
+			
+		    //Store the now validated username and password in the data source
+		    TextView username = (TextView) findViewById(R.id.username);
+	        TextView password = (TextView) findViewById(R.id.password);
+		    DataSource ds = DataSource.getInstance();
+		    ds.setUsername(username.getText().toString());
+		    ds.setPassword(password.getText().toString());
+			
 			String[] lines = result.split("\n");
 			for (int i = 0; i < lines.length; i++) {
 				String thisLine = lines[i];
 				if (thisLine.contains("name=\"sesskey\" value=\"")) {
+					//Extract the session key from the body of the page
 					thisLine = thisLine.substring(thisLine.indexOf("name=\"sesskey\" value=\"") + 22);
+					thisLine = thisLine.substring(0, 10);
+					
+					//Store the session key, username and password in preferences
+					SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+					SharedPreferences.Editor editor = preferences.edit();
+				    editor.putString("sessionkey", thisLine);
+				    editor.putString("username", username.getText().toString());
+				    editor.putString("password", password.getText().toString());
+				    editor.commit();
+				    
+					Log.v("DEBUG", "Session key: " + thisLine);
 				}
 			}
 		}
