@@ -3,5 +3,9 @@
 
     <string name="hello">Hello World, GauchoMobileActivity!</string>
     <string name="app_name">GauchoMobile</string>
+    <string name="Username">Username</string>
+    <string name="Password">Password</string>
+    <string name="login_to_gauchospace">Login to GauchoSpace</string>
+    <string name="storke_tower">Storke Tower</string>
 
 </resources>

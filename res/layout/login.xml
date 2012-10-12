@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:contentDescription="Storke Tower"
+        android:contentDescription="@string/storke_tower"
         android:scaleType="centerCrop"
         android:src="@drawable/bg" />
 
@@ -21,7 +21,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
         android:ems="10"
-        android:hint="Username"
+        android:hint="@string/Username"
         android:textColor="#494949" >
 
         <requestFocus />
@@ -35,7 +35,7 @@
         android:layout_below="@+id/username"
         android:layout_centerHorizontal="true"
         android:ems="10"
-        android:hint="Password"
+        android:hint="@string/Password"
         android:inputType="textPassword"
         android:textColor="#494949" >
     </EditText>
@@ -48,6 +48,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
         android:onClick="loginToGauchoSpace"
-        android:text="Login to GauchoSpace" />
+        android:text="@string/login_to_gauchospace" />
 
 </RelativeLayout>
